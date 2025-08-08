@@ -1,121 +1,104 @@
-# 📒 Contact List (pBuffer)
+# **📒 Lista de Contatos (pBuffer)**
+Um gerenciador simples de lista de contatos escrito em C usando **uma única alocação dinâmica de memória** e **nenhuma variável declarada**, além do `pBuffer`.
 
-A simple contact list manager written in C using **a single dynamic memory allocation** and **no declared variables**, other than the `pBuffer`.
+## **📋 Descrição**
+**Lista de Contatos (pBuffer)** é um programa orientado por menu que permite aos usuários gerenciar uma lista de contatos — incluindo nome, idade e email — usando apenas um buffer de memória alocado dinamicamente (`pBuffer`). O projeto foi desenvolvido com restrições rigorosas:
+* ❌ Nenhuma variável declarada (exceto o ponteiro `pBuffer`).
+* ✅ Apenas **uma chamada para** `malloc` em todo o programa (com `realloc` ocasional).
+* ✅ Toda a lógica manipulada via **aritmética de ponteiros**.
 
-## 📋 Description
+Este projeto serve como um desafio único em gerenciamento manual de memória e programação de baixo nível em C.
 
-**Contact List (pBuffer)** is a menu-driven program that allows users to manage a list of contacts — including name, age, and email — using only one dynamically allocated memory buffer (`pBuffer`). The project was developed with strict constraints:
+## **🎮 Como Funciona**
+1. O programa inicia alocando um `pBuffer` que contém:
+   * Três inteiros:
+      * Contador para número de pessoas
+      * Opção do menu
+      * Variável utilitária (ex: para loop/busca)
+   * Áreas temporárias:
+      * 50 bytes para entrada de nome
+      * 50 bytes para entrada de email
+2. O usuário pode:
+   * Adicionar contatos (nome, idade, email)
+   * Remover contatos por nome
+   * Buscar contatos
+   * Listar todos os contatos
+   * Sair do programa
+3. Cada contato é armazenado no buffer como:
+   * 50 bytes para nome
+   * 4 bytes para idade
+   * 50 bytes para email
+4. A memória é realocada dinamicamente conforme contatos são adicionados ou removidos.
 
-* ❌ No declared variables (other than the `pBuffer` pointer).
-* ✅ Only **one call to `malloc`** throughout the entire program (with occasional `realloc`).
-* ✅ All logic handled via **pointer arithmetic**.
-
-This project serves as a unique challenge in manual memory management and low-level programming in C.
-
-## 🎮 How It Works
-
-1. The program starts by allocating a `pBuffer` that holds:
-
-   * Three integers:
-
-     * Counter for number of people
-     * Menu option
-     * Utility variable (e.g. for loop/search)
-   * Temporary areas:
-
-     * 50 bytes for name input
-     * 50 bytes for email input
-2. The user can:
-
-   * Add contacts (name, age, email)
-   * Remove contacts by name
-   * Search for contacts
-   * List all contacts
-   * Exit the program
-3. Each contact is stored in the buffer as:
-
-   * 50 bytes for name
-   * 4 bytes for age
-   * 50 bytes for email
-4. Memory is reallocated dynamically as contacts are added or removed.
-
-## 🏗️ Project Structure
-
-The project contains a single source file:
+## **🏗️ Estrutura do Projeto**
+O projeto contém um único arquivo fonte:
 
 ```
-ContactList/
-└── agenda_pbufferf.c  # All logic and data in one file and one buffer
+ListaContatos/
+└── agenda_pbufferf.c  # Toda lógica e dados em um arquivo e um buffer
 ```
 
-### agenda\_pbufferf.c
+**agenda_pbufferf.c**
+* Lógica principal do programa e loop.
+* Todos os dados são manipulados através do `pBuffer` usando casting e cálculos de offset.
+* Usa `fgets`, `scanf`, `strcpy`, `strcmp` e `memcpy` para manipular strings e memória.
 
-* Main program logic and loop.
-* All data is handled through `pBuffer` using casting and offset calculations.
-* Uses `fgets`, `scanf`, `strcpy`, `strcmp`, and `memcpy` to handle strings and memory.
+## **🚀 Como Executar**
+1. **Compile o programa:**
 
-## 🚀 How to Run
+```bash
+gcc agenda_pbufferf.c -o agenda
+```
 
-1. **Compile the program:**
+2. **Execute o programa:**
 
-   ```bash
-   gcc agenda_pbufferf.c -o agenda
-   ```
+```bash
+./agenda
+```
 
-2. **Run the program:**
-
-   ```bash
-   ./agenda
-   ```
-
-## 💻 Sample Output
+## **💻 Exemplo de Saída**
 
 ```
 +==========================================+
-|             CONTACT LIST                 |
+|             LISTA DE CONTATOS            |
 +==========================================+
-|  1 - Add New Person                      |
-|  2 - Remove Existing Person              |
-|  3 - Search for Specific Person          |
-|  4 - View All People                     |
-|  5 - Exit Program                        |
+|  1 - Adicionar Nova Pessoa               |
+|  2 - Remover Pessoa Existente            |
+|  3 - Buscar Pessoa Específica            |
+|  4 - Ver Todas as Pessoas                |
+|  5 - Sair do Programa                    |
 +==========================================+
-Your choice: 1
+Sua escolha: 1
 
-=== ADDING NEW PERSON ===
-Enter full name: Alice Johnson
-Enter age: 29
-Enter email: alice@example.com
-Success! Person added. Total: 1 person(s)
+=== ADICIONANDO NOVA PESSOA ===
+Digite o nome completo: Alice Johnson
+Digite a idade: 29
+Digite o email: alice@exemplo.com
+Sucesso! Pessoa adicionada. Total: 1 pessoa(s)
 ```
 
-## 🎲 Features
+## **🎲 Funcionalidades**
+* **malloc único**: Todo o gerenciamento de memória é feito com um `malloc` e `realloc`.
+* **Zero variáveis declaradas**: Todos os dados são armazenados no buffer.
+* **Layout manual de memória**: Informações de contato são gerenciadas via cálculos de offset.
+* **Lista dinâmica de contatos**: Memória expande/encolhe baseada no número de pessoas.
+* **Menu funcional**: Opções de adicionar, remover, buscar, listar e sair.
 
-* **Single malloc**: All memory management is done with one `malloc` and `realloc`.
-* **Zero declared variables**: All data is stored in the buffer.
-* **Manual memory layout**: Contact information is managed via offset calculations.
-* **Dynamic contact list**: Memory expands/shrinks based on the number of people.
-* **Functional menu**: Add, remove, search, list, and exit options.
+## **🛠️ Tecnologias Utilizadas**
+* **Linguagem C**
+* **Bibliotecas Padrão do C**:
+   * `<stdio.h>`: Entrada/saída
+   * `<stdlib.h>`: Gerenciamento de memória
+   * `<string.h>`: Manipulação de strings
+* **Aritmética de Ponteiros**: Técnica central para acessar e organizar memória
+* **Alocação Dinâmica**: Usando `malloc`, `realloc` e `free`
 
-## 🛠️ Technologies Used
+## **📝 Possíveis Melhorias (Atualizações Futuras)**
+* Usar `structs` para simplificar o manuseio de memória.
+* Adicionar persistência de arquivo (salvar/carregar).
+* Ordenação alfabética dos contatos.
+* Suporte para múltiplos campos (ex: telefone, endereço).
+* Interface GUI ou baseada em texto usando bibliotecas como `ncurses`.
 
-* **C Language**
-* **Standard C Libraries**:
-
-  * `<stdio.h>`: Input/output
-  * `<stdlib.h>`: Memory management
-  * `<string.h>`: String manipulation
-* **Pointer Arithmetic**: Core technique for accessing and organizing memory
-* **Dynamic Allocation**: Using `malloc`, `realloc`, and `free`
-
-## 📝 Possible Improvements (Future Updates)
-
-* Use `structs` to simplify memory handling.
-* Add file persistence (save/load).
-* Alphabetical sorting of contacts.
-* Support for multiple fields (e.g., phone, address).
-* GUI or text-based interface using libraries like `ncurses`.
-
-## 👩‍💻 Author
-
-Developed as a memory management challenge in C programming, demonstrating what can be done with no variables, structs and just a single `malloc`.
+## **👩‍💻 Autor**
+Desenvolvido como um desafio de gerenciamento de memória em programação C, demonstrando o que pode ser feito sem variáveis, structs e apenas um único `malloc`.
